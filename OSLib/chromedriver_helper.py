@@ -5,7 +5,10 @@ from subprocess import PIPE, Popen, STDOUT
 
 import requests
 
-from OSLib.os_helper import *
+try:
+    from Libs.OSLib.os_helper import *
+except:
+    from OSLib.os_helper import *
 
 # OS DEPENDENT VARIABLES
 running_os = platform.system()

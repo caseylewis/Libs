@@ -1,7 +1,10 @@
 import json
 import os
 
-from OSLib.os_helper import file_create
+try:
+    from Libs.OSLib.os_helper import file_create
+except:
+    from OSLib.os_helper import file_create
 
 
 class JsonManager:
