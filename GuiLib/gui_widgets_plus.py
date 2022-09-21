@@ -1,5 +1,19 @@
 from tkinter import *
 import platform
+import pyperclip
+
+
+########################################################################################################################
+########################################################################################################################
+#  WIDGET PLUS SECTION
+#
+# THIS SECTION IS WHERE ALL THE EXTENDED WIDGETS WILL BE DEFINED. SUCH AS:
+#   - CheckbuttonPlus
+#   - EntryPlus
+#   - DropdownPlus
+#   - LoggerPlus
+#   - ScrollFramePlus
+########################################################################################################################
 
 
 class CheckbuttonPlus(Checkbutton):
@@ -228,3 +242,256 @@ class ScrollFramePlus(Frame):
 
         # ENSURE CANVAS HIGHLIGHT IS THE SAME AS THE BACKGROUND
         self._canvas.configure(highlightbackground=self['bg'], bg=self['bg'])
+
+
+########################################################################################################################
+########################################################################################################################
+#  EXTENDED WIDGET SECTION
+#
+# THIS SECTION IS WHERE ALL THE EXTENDED WIDGETS WILL BE DEFINED. SUCH AS:
+#   - ButtonWithBorder
+#   - LabelWithCopy
+########################################################################################################################
+
+
+class ButtonWithBorder(Frame):
+    """
+    Example args:
+    button_with_copy_args = {
+        'font_style': 'Times',
+        'font_size': 18,
+        'bg': 'white',
+        'fg': '#ff4d5b', # LIGHTRED
+        'bd': 3
+    }
+    """
+    def __init__(self, root, btn_text, command,
+                 font_style="Times",
+                 font_size=12,
+                 font_extras='',
+                 bg="black",
+                 fg="white",
+                 bd=3):
+        super().__init__(root)
+        self.font_style = font_style
+        self.font_size = font_size
+        self.font_extras = font_extras
+        self.bg = bg
+        self.fg = fg
+        self.bd = bd
+        self.__command = command
+        # FRAME BG MUST BE SET TO FG
+        self.config(bg=self.fg)
+        # CONFIGURE COLUMNS AND ROWS
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_rowconfigure(0, weight=1)
+
+        font = f'{self.font_style} {self.font_size} {self.font_extras}'
+
+        # LABEL
+        self._btn = Button(self, text=btn_text.upper(), command=self.__command, font=font, bg=self.bg, fg=self.fg, relief='flat')
+        self._btn.grid(row=0, column=0, sticky='nsew', pady=self.bd, padx=self.bd)
+
+
+class LabelWithCopy(Frame):
+    """
+    Example args:
+    bordered_button_args = {
+        'font_style': 'Times',
+        'font_size': 18,
+        'font_extras': 'italic',
+        'bg': 'black',
+        'fg': 'white',
+        'bd': 5
+    }
+    """
+    _font_extras = 'bold'
+
+    def __init__(self, root, lbl_text,
+                 font_style="Times",
+                 font_size=12,
+                 bg="black",
+                 fg="white",
+                 bd=3
+                 ):
+        super().__init__(root)
+        self.font_style = font_style
+        self.font_size = font_size
+        self.bg = bg
+        self.fg = fg
+        self.bd = bd
+        # FRAME BG MUST BE SET TO FG
+        self.config(bg=self.fg)
+        # CONFIGURE COLUMNS AND ROWS
+        self.grid_columnconfigure(0, weight=1)
+        self.grid_columnconfigure(1, weight=0)
+        self.grid_rowconfigure(0, weight=1)
+
+        font = f'{self.font_style} {self.font_size} {self._font_extras}'
+
+        # LABEL
+        self._lbl = Label(self, text=lbl_text.upper(), font=font, bg=self.bg, fg=self.fg)
+        self._lbl.grid(row=0, column=0, sticky='nsew', pady=self.bd, padx=(self.bd, 0))
+
+        # COPY BUTTON
+        copy_text = '✎'
+        copy_text_width = len(copy_text) + 2
+        self._copy_btn = Button(self, text=copy_text, font=font, bg=self.bg, fg=self.fg, width=copy_text_width, relief='flat', command=lambda: self.__copy_text_to_clipboard())
+        self._copy_btn.grid(row=0, column=1, pady=self.bd, padx=self.bd, sticky='nsew')
+
+    def __copy_text_to_clipboard(self):
+        pyperclip.copy(self._lbl['text'])
+
+
+if __name__ == '__main__':
+    # WIDGET PLUS
+    #   - CheckbuttonPlus
+    #   - EntryPlus
+    #   - DropdownPlus
+    #   - LoggerPlus
+    #   - ScrollFramePlus
+    # EXTENDED WIDGETS
+    #   - ButtonWithBorder
+    #   - LabelWithCopy
+
+    root = Tk()
+    root.config(bg='yellow')
+    # root.minsize(600, 300)
+    START_HEIGHT = 400
+    START_WIDTH = 400
+    root.geometry(f"{START_WIDTH}x{START_HEIGHT}")
+    MIN_W_HEIGHT = 300
+    MIN_W_WIDTH = 800
+    root.wm_minsize(MIN_W_WIDTH, MIN_W_HEIGHT)
+
+    class Columns:
+        FIRST = 0
+        BUFFER_1 = 1
+        SECOND = 2
+        THIRD = 3
+        BUFFER_2 = 4
+
+
+    class Rows:
+        TOP = 0
+        MIDDLE = 1
+        BOTTOM = 2
+
+
+    # CONFIGURE COLUMNS
+    uniform_minsize = 200
+    buffer_minsize = 50
+    root.grid_columnconfigure(
+        Columns.FIRST,
+        weight=0,
+        minsize=100,
+        uniform='first'
+    )
+    root.grid_columnconfigure(
+        Columns.BUFFER_1,
+        weight=1,
+        minsize=buffer_minsize,
+        uniform='buffer'
+    )
+    root.grid_columnconfigure(
+        Columns.SECOND,
+        weight=1,
+        minsize=uniform_minsize,
+        uniform='uniform_columns'
+    )
+    root.grid_columnconfigure(
+        Columns.THIRD,
+        weight=1,
+        minsize=uniform_minsize,
+        uniform='uniform_columns'
+    )
+    root.grid_columnconfigure(
+        Columns.BUFFER_2,
+        weight=1,
+        minsize=buffer_minsize,
+        uniform='buffer'
+    )
+    # CONFIGURE ROWS
+    root.grid_rowconfigure(
+        Rows.TOP,
+        weight=0,
+        minsize=10,
+        uniform='top'
+    )
+    root.grid_rowconfigure(
+        Rows.MIDDLE,
+        weight=1,
+        minsize=20,
+        uniform='uniform_rows'
+    )
+    root.grid_rowconfigure(
+        Rows.BOTTOM,
+        weight=1,
+        minsize=20,
+        uniform='uniform_rows'
+    )
+
+    grid_args = {
+        'sticky': 'nsew',
+    }
+
+    def get_row_or_column_from_tag(tag_dict, tag):
+        """
+        Pass in tag
+        """
+        for row, tag_list in tag_dict.items():
+            if tag in tag_list:
+                return row
+        raise Exception(f"Tag: [{tag}] NOT found in list.")
+
+    # CHECKBUTTONPLUS
+    checkbutton_plus = CheckbuttonPlus(root)
+    checkbutton_plus.grid(
+        row=Rows.TOP,
+        column=Columns.FIRST,
+        sticky='ew'
+    )
+
+    # DROPDOWNPLUS
+    dropdown_options = ['one', 'two', 'three']
+    dropdown_plus = DropdownPlus(root, dropdown_options)
+    dropdown_plus.grid(
+        row=Rows.TOP,
+        column=Columns.SECOND,
+        sticky='nsew'
+    )
+
+    # ENTRYPLUS
+    entry_plus = EntryPlus(root, default_text='default text')
+    entry_plus.grid(
+        row=Rows.TOP,
+        column=Columns.THIRD,
+        sticky='ew'
+    )
+
+    # LOGGERPLUS
+    logger_plus = LoggerPlus(root, width=5, height=2)
+    logger_plus.grid(
+        row=Rows.MIDDLE,
+        column=Columns.SECOND,
+        columnspan=2,
+        **grid_args
+    )
+    logger_plus.log("This is a test of the logger log functionality.")
+
+    # SCROLLFRAMEPLUS
+    scrollframe_plus = ScrollFramePlus(root, hide_scrollbar=False)
+    scrollframe_plus.grid(row=Rows.BOTTOM, column=Columns.FIRST, **grid_args)
+    scrollframe_plus.grid_columnconfigure(0, weight=1)
+    scrollframe_plus.config(bg='red', width=200, height=100)
+    # VIEW PORT
+    scrollframe_plus.view_port.grid(pady=5, padx=5, ipadx=5, ipady=5, sticky='nsew')
+    scrollframe_plus.view_port.grid_columnconfigure(0, weight=1)
+    scrollframe_plus.view_port.config(bg='orange')
+    for button in range(5):
+        btn = Button(scrollframe_plus.view_port, text=f"button {button+1}", command=lambda text=f"button {button+1} clicked": print(text))
+        btn.grid(row=button, sticky='ew', padx=10)
+
+    root.update()
+
+    root.mainloop()

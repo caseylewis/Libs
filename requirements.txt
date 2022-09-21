@@ -1,2 +1,3 @@
 -r OSLib/requirements.txt
 -r DataLib/requirements.txt
+-r GuiLib/requirements.txt

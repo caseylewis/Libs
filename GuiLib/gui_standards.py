@@ -1,8 +1,13 @@
 from abc import abstractmethod
 
-from Libs.GuiLib.gui_styles import style, grid_style
-from Libs.GuiLib.gui_widgets_plus import *
-from Libs.GuiLib.gui_functions import *
+try:
+    from Libs.GuiLib.gui_styles import style, grid_style
+    from Libs.GuiLib.gui_widgets_plus import *
+    from Libs.GuiLib.gui_functions import *
+except Exception as e:
+    from GuiLib.gui_styles import style, grid_style
+    from GuiLib.gui_widgets_plus import *
+    from GuiLib.gui_functions import *
 
 # STYLES
 STD_WIDTH = 15

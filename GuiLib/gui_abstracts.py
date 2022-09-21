@@ -1,5 +1,9 @@
-from Libs.GuiLib.gui_majors import ContentFrame
-from Libs.GuiLib.gui_standards import *
+try:
+    from Libs.GuiLib.gui_majors import ContentFrame
+    from Libs.GuiLib.gui_standards import *
+except Exception as e:
+    from GuiLib.gui_majors import ContentFrame
+    from GuiLib.gui_standards import *
 
 
 class AbstractCardKeys:
@@ -51,7 +55,7 @@ class AbstractEditFrame(StandardFrame):
         self.mode = self._modes.ADD
 
         # TITLE
-        self._title = TitleLabel(self, text="Create {}".format(object_type.object_name))
+        self._title = TitleLabel(self, text="Create {}".format(self.object_type.object_name))
         self._title.grid(row=0, column=0, sticky='nsew', pady=(0, grid_style.pad.pady_std), padx=0)
 
         # INPUT FRAME
@@ -249,7 +253,7 @@ class AbstractObjectFrame(ContentFrame):
 
 
 if __name__ == '__main__':
-    from App_BudgetHelper.components.Accounts.AccountFrame import *
+    # from App_BudgetHelper.components.Accounts.AccountFrame import *
 
     # class AccountFrame(AbstractObjectFrame):
     #     def __init__(self, root, on_add_func, on_update_func, on_delete_by_name_func, on_edit_by_name_func):
@@ -260,34 +264,34 @@ if __name__ == '__main__':
     #                          on_edit_by_name_func=on_edit_by_name_func)
 
 
-    def get_object_from_list_by_name(object_name, object_list):
-        for object in object_list:
-            if object.name == object_name:
-                return object
-
-    # TEST FOR ACCOUNT FRAME
-    def add_object(object):
-        test_object_list.append(object)
-        frame.add_object(object)
-        frame.object_edit_frame.clear_entries()
-
-    def update_object(new_object):
-        old_object = get_object_from_list_by_name(new_object.name, test_object_list)
-        old_object.copy_from(new_object)
-        frame.update_object(new_object)
-
-    def delete_object_by_name(object_name):
-        frame.delete_object_by_name(object_name)
-
-    def edit_object_by_name(object_name):
-        object = get_object_from_list_by_name(object_name, test_object_list)
-        frame.edit_object(object)
+    # def get_object_from_list_by_name(object_name, object_list):
+    #     for object in object_list:
+    #         if object.name == object_name:
+    #             return object
+    #
+    # # TEST FOR ACCOUNT FRAME
+    # def add_object(object):
+    #     test_object_list.append(object)
+    #     frame.add_object(object)
+    #     frame.object_edit_frame.clear_entries()
+    #
+    # def update_object(new_object):
+    #     old_object = get_object_from_list_by_name(new_object.name, test_object_list)
+    #     old_object.copy_from(new_object)
+    #     frame.update_object(new_object)
+    #
+    # def delete_object_by_name(object_name):
+    #     frame.delete_object_by_name(object_name)
+    #
+    # def edit_object_by_name(object_name):
+    #     object = get_object_from_list_by_name(object_name, test_object_list)
+    #     frame.edit_object(object)
 
     root = Tk()
     root.grid_columnconfigure(0, weight=1)
     root.grid_rowconfigure(0, weight=1)
 
-    test_object_list = [test_account]
-
-    frame = AccountFrame(root, add_object, update_object, delete_object_by_name, edit_object_by_name)
-    frame.populate_objects(test_object_list)
+    # test_object_list = [test_account]
+    #
+    # frame = AccountFrame(root, add_object, update_object, delete_object_by_name, edit_object_by_name)
+    # frame.populate_objects(test_object_list)

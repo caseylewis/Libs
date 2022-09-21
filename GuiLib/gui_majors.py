@@ -1,4 +1,7 @@
-from Libs.GuiLib.gui_standards import *
+try:
+    from Libs.GuiLib.gui_standards import *
+except Exception as e:
+    from GuiLib.gui_standards import *
 
 
 class NavigationButton(Frame):
