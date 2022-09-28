@@ -53,110 +53,6 @@ class CheckbuttonPlus(Checkbutton):
                 self._deselect_func()
 
 
-class _TestCheckbuttonPlus(Frame):
-    def __init__(self, root, *args, **kwargs):
-        super().__init__(root, *args, **kwargs)
-        # self.config(bg='#202124')
-
-        class _Rows:
-            TITLE = 0
-            CHECK = 1
-            LOG = 2
-        self.grid_rowconfigure(
-            _Rows.TITLE,
-            weight=0,
-            minsize=10,
-        )
-        self.grid_rowconfigure(
-            _Rows.CHECK,
-            weight=0,
-            minsize=10,
-        )
-        self.grid_rowconfigure(
-            _Rows.LOG,
-            weight=1,
-            minsize=10,
-        )
-
-        class _Columns:
-            LEFT = 0
-            RIGHT = 1
-        self.grid_columnconfigure(
-            _Columns.LEFT,
-            weight=1,
-            minsize=100,
-        )
-        self.grid_columnconfigure(
-            _Columns.RIGHT,
-            weight=0,
-            minsize=10,
-        )
-
-        # pad_args = {
-        #     'pady': 5,
-        #     'padx': 5,
-        # }
-        # TITLE
-        self._title = Label(
-            self,
-            text="Test Checkbutton Plus",
-            **_title_args,
-        )
-        self._title.grid(
-            row=_Rows.TITLE,
-            column=_Columns.LEFT,
-            columnspan=2,
-            **_grid_args,
-        )
-
-        # CHECKBUTTON PLUS
-        self._check = CheckbuttonPlus(self, height=1)
-        self._check.grid(
-            row=_Rows.CHECK,
-            column=_Columns.LEFT,
-            **_grid_args,
-        )
-
-        # PRINT BUTTON
-        self._print_btn = ButtonWithBorder(
-            self,
-            text="Print",
-            command=lambda: self.__on_print_btn_clicked(),
-        )
-        self._print_btn.grid(
-            row=_Rows.CHECK,
-            column=_Columns.RIGHT,
-            **_grid_args,
-        )
-
-        # LOGGER
-        self._logger = TextPlus(self, read_only=True)
-        self._logger.grid(
-            row=_Rows.LOG,
-            column=_Columns.LEFT,
-            **_grid_args,
-        )
-
-        # CLEAR BUTTON
-        self._clear_btn = ButtonWithBorder(
-            self,
-            text="Clear",
-            command=lambda: self.__on_clear_btn_clicked(),
-        )
-        self._clear_btn.grid(
-            row=_Rows.LOG,
-            column=_Columns.RIGHT,
-            **_grid_args,
-        )
-
-    def __on_print_btn_clicked(self):
-        val = self._check.get()
-        self._logger.append(val)
-
-    def __on_clear_btn_clicked(self):
-        self._logger.clear()
-
-
 class EntryPlus(Entry):
     def __init__(self, root, default_text='', *args, **kwargs):
         super().__init__(root, *args, **kwargs)
@@ -172,166 +68,6 @@ class EntryPlus(Entry):
     def set(self, set_text):
         self.clear()
         self.insert(0, set_text)
-
-
-class _TestEntryPlus(Frame):
-    def __init__(self, root, *args, **kwargs):
-        super().__init__(root, *args, **kwargs)
-
-        class _Rows:
-            TITLE = 0
-            ENTRY = 1
-            CLEAR = 2
-            DEFAULT = 3
-            INPUT = 4
-            OUTPUT = 5
-        self.grid_rowconfigure(
-            _Rows.ENTRY,
-            weight=0,
-            minsize=10,
-        )
-        self.grid_rowconfigure(
-            _Rows.CLEAR,
-            weight=0,
-            minsize=10,
-        )
-        self.grid_rowconfigure(
-            _Rows.DEFAULT,
-            weight=0,
-            minsize=10,
-        )
-        self.grid_rowconfigure(
-            _Rows.INPUT,
-            weight=0,
-            minsize=10,
-        )
-        self.grid_rowconfigure(
-            _Rows.OUTPUT,
-            weight=0,
-            minsize=10,
-        )
-
-        class _Columns:
-            ENTRY = 0
-            BUTTONS = 1
-        self.grid_columnconfigure(
-            _Columns.ENTRY,
-            weight=1,
-            minsize=100,
-        )
-        self.grid_columnconfigure(
-            _Columns.BUTTONS,
-            weight=0,
-            minsize=10,
-        )
-        # TITLE
-        self._title = Label(
-            self,
-            text="Test Entry Plus",
-            **_title_args
-        )
-        self._title.grid(
-            row=_Rows.TITLE,
-            column=_Columns.ENTRY,
-            columnspan=2,
-            sticky='ew'
-        )
-
-        # MAIN ENTRY
-        self._entry_plus = EntryPlus(self, default_text="default")
-        self._entry_plus.grid(
-            row=_Rows.ENTRY,
-            column=_Columns.ENTRY,
-            **_grid_args,
-        )
-        # PRINT BUTTON
-        self._print_btn = ButtonWithBorder(
-            self,
-            text="Print",
-            command=lambda: self.__on_print_btn_clicked()
-        )
-        self._print_btn.grid(
-            row=_Rows.ENTRY,
-            column=_Columns.BUTTONS,
-            **_grid_args,
-        )
-        # CLEAR ENTRY BUTTON
-        self._clear_entry_btn = ButtonWithBorder(
-            self,
-            text="Clear",
-            command=lambda: self.__on_clear_entry_btn_clicked()
-        )
-        self._clear_entry_btn.grid(
-            row=_Rows.CLEAR,
-            column=_Columns.BUTTONS,
-            **_grid_args,
-        )
-        # DEFAULT BUTTON
-        self._default_btn = ButtonWithBorder(
-            self,
-            text="Default",
-            command=lambda: self.__on_default_btn_clicked()
-        )
-        self._default_btn.grid(
-            row=_Rows.DEFAULT,
-            column=_Columns.BUTTONS,
-            **_grid_args,
-        )
-        # INPUT ENTRY
-        self._input_entry_plus = EntryPlus(self)
-        self._input_entry_plus.grid(
-            row=_Rows.INPUT,
-            column=_Columns.ENTRY,
-            **_grid_args,
-        )
-        # SET BUTTON
-        self._set_btn = ButtonWithBorder(
-            self,
-            text="Set",
-            command=lambda: self.__on_set_btn_clicked()
-        )
-        self._set_btn.grid(
-            row=_Rows.INPUT,
-            column=_Columns.BUTTONS,
-            **_grid_args,
-        )
-
-        # OUTPUT ENTRY
-        self._output_entry_plus = TextPlus(self, read_only=True, height=1)
-        self._output_entry_plus.grid(
-            row=_Rows.OUTPUT,
-            column=_Columns.ENTRY,
-            **_grid_args,
-        )
-
-        # CLEAR OUTPUT BUTTON
-        self._clear_output_btn = ButtonWithBorder(
-            self,
-            text="Clear",
-            command=lambda: self.__on_clear_output_btn_clicked()
-        )
-        self._clear_output_btn.grid(
-            row=_Rows.OUTPUT,
-            column=_Columns.BUTTONS,
-            **_grid_args,
-        )
-
-    def __on_print_btn_clicked(self):
-        text = self._entry_plus.get()
-        self._output_entry_plus.set(text)
-
-    def __on_clear_entry_btn_clicked(self):
-        self._entry_plus.clear()
-
-    def __on_default_btn_clicked(self):
-        self._entry_plus.default()
-
-    def __on_set_btn_clicked(self):
-        text = self._input_entry_plus.get()
-        self._entry_plus.set(text)
-
-    def __on_clear_output_btn_clicked(self):
-        self._output_entry_plus.clear()
 
 
 class TextPlus(Text):
@@ -494,94 +230,6 @@ class DropdownPlus(OptionMenu):
             self._var.set(value)
 
 
-class _TestDropdownPlus(Frame):
-    def __init__(self, root, *args, **kwargs):
-        super().__init__(root, *args, **kwargs)
-
-        class Rows:
-            TITLE = 0
-            TOP = 1
-            BOTTOM = 2
-        self.grid_rowconfigure(
-            Rows.TOP,
-            weight=0,
-            minsize=10,
-            uniform='rows',
-        )
-        self.grid_rowconfigure(
-            Rows.BOTTOM,
-            weight=0,
-            minsize=10,
-            uniform='rows',
-        )
-
-        class Columns:
-            LEFT = 0
-            RIGHT = 1
-        self.grid_columnconfigure(
-            Columns.LEFT,
-            weight=5,
-            minsize=50,
-            # uniform=
-        )
-        self.grid_columnconfigure(
-            Columns.RIGHT,
-            weight=0,
-            minsize=5,
-            # uniform=
-        )
-        # TITLE LABEL
-        self._title = Label(
-            self,
-            text="Test Dropdown Plus",
-            **_title_args,
-        )
-        self._title.grid(
-            row=Rows.TITLE,
-            column=Columns.LEFT,
-            columnspan=2,
-            sticky='nsew',
-        )
-
-        # ENTRY
-        self._entry = EntryPlus(self)
-        self._entry.grid(
-            row=Rows.TOP,
-            column=Columns.LEFT,
-            sticky='nsew',
-        )
-        # DROPDOWN
-        self._dropdown = DropdownPlus(self, ['1', '2', '3'])
-        self._dropdown.grid(
-            row=Rows.BOTTOM,
-            column=Columns.LEFT,
-            sticky='nsew',
-        )
-        # PLUS BUTTON
-        self._plus = ButtonWithBorder(self, text='[+]', command=lambda: self.__on_plus_clicked())
-        self._plus.grid(
-            row=Rows.TOP,
-            column=Columns.RIGHT,
-            sticky='nsew',
-        )
-        # MINUS BUTTON
-        self._minus = ButtonWithBorder(self, text='[-]', command=lambda: self.__on_minus_clicked())
-        self._minus.grid(
-            row=Rows.BOTTOM,
-            column=Columns.RIGHT,
-            sticky='nsew',
-        )
-
-    def __on_plus_clicked(self):
-        entry_text = self._entry.get()
-        if entry_text is not '':
-            self._dropdown.add_option(entry_text)
-
-    def __on_minus_clicked(self):
-        current_option = self._dropdown.get()
-        self._dropdown.remove_option(current_option)
-
-
 class LoggerPlus(Text):
     def __init__(self, root, *args, **kwargs):
         super().__init__(root, *args, **kwargs)
@@ -714,53 +362,6 @@ class ScrollFramePlus(Frame):
         self._canvas.configure(highlightbackground=self['bg'], bg=self['bg'])
 
 
-class _TestScrollframePlus(Frame):
-    def __init__(self, root, *args, **kwargs):
-        super().__init__(root, *args, **kwargs)
-
-        class _Rows:
-            TITLE = 0
-            SCROLLFRAME = 1
-            BUTTONS = 2
-        self.grid_rowconfigure(
-            _Rows.TITLE,
-            weight=0,
-            minsize=10,
-        )
-        self.grid_rowconfigure(
-            _Rows.SCROLLFRAME,
-            weight=1,
-            minsize=100,
-        )
-        self.grid_rowconfigure(
-            _Rows.BUTTONS,
-            weight=0,
-            minsize=10,
-        )
-
-        class _Columns:
-            MAIN = 0
-        self.grid_columnconfigure(
-            _Columns.MAIN,
-            weight=1,
-            minsize=100,
-        )
-        # TITLE
-        self._title = Label(
-            self,
-            text="Test ScrollFrame Plus",
-            **_title_args,
-        )
-        self._title.grid(
-            row=_Rows.TITLE,
-            column=_Columns.MAIN,
-            sticky='ew',
-
-        )
-        # SCROLLFRAME PLUS
-        # TOGGLE BUTTON
-
-
 ########################################################################################################################
 ########################################################################################################################
 #  EXTENDED WIDGET SECTION
@@ -872,170 +473,170 @@ class LabelWithCopy(Frame):
         pyperclip.copy(self._lbl['text'])
 
 
-if __name__ == '__main__':
-    # WIDGET PLUS
-    #   - CheckbuttonPlus
-    #   - EntryPlus
-    #   - DropdownPlus
-    #   - LoggerPlus
-    #   - ScrollFramePlus
-    # EXTENDED WIDGETS
-    #   - ButtonWithBorder
-    #   - LabelWithCopy
-
-    # CONFIGURE ROOT CONSTANTS
-    _START_HEIGHT = 400
-    _START_WIDTH = 400
-    _MIN_W_HEIGHT = 300
-    _MIN_W_WIDTH = 800
-
-    _root = Tk()
-    _root.config(bg='#59ffc6')
-    # root.minsize(600, 300)
-    _root.geometry(f"{_START_WIDTH}x{_START_HEIGHT}")
-    _root.wm_minsize(_MIN_W_WIDTH, _MIN_W_HEIGHT)
-
-    # CONFIGURE COLUMNS
-    class _Columns:
-        DESC = 0
-        TEST = 1
-    uniform_minsize = 200
-    buffer_minsize = 50
-    _root.grid_columnconfigure(
-        _Columns.DESC,
-        weight=1,
-        minsize=uniform_minsize,
-        uniform='desc'
-    )
-    _root.grid_columnconfigure(
-        _Columns.TEST,
-        weight=5,
-        minsize=uniform_minsize,
-        uniform='test'
-    )
-
-    # CONFIGURE ROWS
-    class _Rows:
-        CHECK = 0
-        ENTRY = 1
-        # TEXT = 2
-        DROPDOWN = 3
-    _root.grid_rowconfigure(
-        _Rows.CHECK,
-        weight=1,
-        minsize=10,
-        uniform='uniform_rows'
-    )
-    _root.grid_rowconfigure(
-        _Rows.ENTRY,
-        weight=1,
-        minsize=300,
-        # uniform='uniform_rows'
-    )
-    _root.grid_rowconfigure(
-        _Rows.DROPDOWN,
-        weight=1,
-        minsize=10,
-        uniform='uniform_rows'
-    )
-    # LOCAL STYLE ARGS
-    _text_args = {
-        'width': 50,
-        'height': 1,
-        'read_only': True,
-    }
-    _test_frame_args = {
-        'bg': '#59ffc6',
-    }
-    # LOCAL GRID ARGS
-    _text_grid_args = {
-        'pady': _grid_args['pady'],
-        'padx': _grid_args['padx'],
-        'sticky': 'nsew',
-    }
-    _test_grid_args = {
-        'pady': _grid_args['pady'],
-        'padx': _grid_args['padx'],
-        'sticky': 'nsew',
-    }
-
-########################################################################################################################
-    # TEXT CHECKBUTTON PLUS
-    text_checkbutton_plus = TextPlus(
-        _root,
-        **_text_args,
-    )
-    text_checkbutton_plus.set(
-        "This is to test the CheckbuttonPlus class."
-        "\n\n"
-        "Test new line."
-    )
-    text_checkbutton_plus.grid(
-        row=_Rows.CHECK,
-        column=_Columns.DESC,
-        **_text_grid_args,
-    )
-
-    # TEST CHECKBUTTON PLUS
-    test_checkbutton_plus = _TestCheckbuttonPlus(_root, **_test_frame_args)
-    test_checkbutton_plus.grid(
-        row=_Rows.CHECK,
-        column=_Columns.TEST,
-        **_test_grid_args,
-    )
-
-########################################################################################################################
-    # TEXT ENTRY PLUS
-    text_entry_plus = TextPlus(
-        _root,
-        **_text_args,
-    )
-    text_entry_plus.set(
-        "This is to test the EntryPlus class."
-        "\n\n"
-        "Print: Prints what is currently in the Main Entry to the Output Entry (bottom)."
-        "\n\n"
-        "Clear: Clears the Main Entry."
-    )
-    text_entry_plus.grid(
-        row=_Rows.ENTRY,
-        column=_Columns.DESC,
-        **_text_grid_args,
-    )
-
-    # TEST ENTRY PLUS
-    test_entry_plus = _TestEntryPlus(
-        _root,
-        **_test_frame_args,
-    )
-    test_entry_plus.grid(
-        row=_Rows.ENTRY,
-        column=_Columns.TEST,
-        **_test_grid_args,
-    )
-
-########################################################################################################################
-    # TEXT DROPDOWN PLUS
-    text_dropdown_plus = TextPlus(
-        _root,
-        **_text_args,
-    )
-    text_dropdown_plus.grid(
-        row=_Rows.DROPDOWN,
-        column=_Columns.DESC,
-        **_text_grid_args,
-    )
-    # TEST DROPDOWN PLUS
-    test_dropdown_plus = _TestDropdownPlus(
-        _root,
-        **_test_frame_args,
-    )
-    test_dropdown_plus.grid(
-        row=_Rows.DROPDOWN,
-        column=_Columns.TEST,
-        **_test_grid_args,
-    )
-
-    _root.update()
-
-    _root.mainloop()
+# if __name__ == '__main__':
+#     # WIDGET PLUS
+#     #   - CheckbuttonPlus
+#     #   - EntryPlus
+#     #   - DropdownPlus
+#     #   - LoggerPlus
+#     #   - ScrollFramePlus
+#     # EXTENDED WIDGETS
+#     #   - ButtonWithBorder
+#     #   - LabelWithCopy
+#
+#     # CONFIGURE ROOT CONSTANTS
+#     _START_HEIGHT = 400
+#     _START_WIDTH = 400
+#     _MIN_W_HEIGHT = 300
+#     _MIN_W_WIDTH = 800
+#
+#     _root = Tk()
+#     _root.config(bg='#59ffc6')
+#     # root.minsize(600, 300)
+#     _root.geometry(f"{_START_WIDTH}x{_START_HEIGHT}")
+#     _root.wm_minsize(_MIN_W_WIDTH, _MIN_W_HEIGHT)
+#
+#     # CONFIGURE COLUMNS
+#     class _Columns:
+#         DESC = 0
+#         TEST = 1
+#     uniform_minsize = 200
+#     buffer_minsize = 50
+#     _root.grid_columnconfigure(
+#         _Columns.DESC,
+#         weight=1,
+#         minsize=uniform_minsize,
+#         uniform='desc'
+#     )
+#     _root.grid_columnconfigure(
+#         _Columns.TEST,
+#         weight=5,
+#         minsize=uniform_minsize,
+#         uniform='test'
+#     )
+#
+#     # CONFIGURE ROWS
+#     class _Rows:
+#         CHECK = 0
+#         ENTRY = 1
+#         # TEXT = 2
+#         DROPDOWN = 3
+#     _root.grid_rowconfigure(
+#         _Rows.CHECK,
+#         weight=1,
+#         minsize=10,
+#         uniform='uniform_rows'
+#     )
+#     _root.grid_rowconfigure(
+#         _Rows.ENTRY,
+#         weight=1,
+#         minsize=300,
+#         # uniform='uniform_rows'
+#     )
+#     _root.grid_rowconfigure(
+#         _Rows.DROPDOWN,
+#         weight=1,
+#         minsize=10,
+#         uniform='uniform_rows'
+#     )
+#     # LOCAL STYLE ARGS
+#     _text_args = {
+#         'width': 50,
+#         'height': 1,
+#         'read_only': True,
+#     }
+#     _test_frame_args = {
+#         'bg': '#59ffc6',
+#     }
+#     # LOCAL GRID ARGS
+#     _text_grid_args = {
+#         'pady': _grid_args['pady'],
+#         'padx': _grid_args['padx'],
+#         'sticky': 'nsew',
+#     }
+#     _test_grid_args = {
+#         'pady': _grid_args['pady'],
+#         'padx': _grid_args['padx'],
+#         'sticky': 'nsew',
+#     }
+#
+# ########################################################################################################################
+#     # TEXT CHECKBUTTON PLUS
+#     text_checkbutton_plus = TextPlus(
+#         _root,
+#         **_text_args,
+#     )
+#     text_checkbutton_plus.set(
+#         "This is to test the CheckbuttonPlus class."
+#         "\n\n"
+#         "Test new line."
+#     )
+#     text_checkbutton_plus.grid(
+#         row=_Rows.CHECK,
+#         column=_Columns.DESC,
+#         **_text_grid_args,
+#     )
+#
+#     # TEST CHECKBUTTON PLUS
+#     test_checkbutton_plus = _TestCheckbuttonPlus(_root, **_test_frame_args)
+#     test_checkbutton_plus.grid(
+#         row=_Rows.CHECK,
+#         column=_Columns.TEST,
+#         **_test_grid_args,
+#     )
+#
+# ########################################################################################################################
+#     # TEXT ENTRY PLUS
+#     text_entry_plus = TextPlus(
+#         _root,
+#         **_text_args,
+#     )
+#     text_entry_plus.set(
+#         "This is to test the EntryPlus class."
+#         "\n\n"
+#         "Print: Prints what is currently in the Main Entry to the Output Entry (bottom)."
+#         "\n\n"
+#         "Clear: Clears the Main Entry."
+#     )
+#     text_entry_plus.grid(
+#         row=_Rows.ENTRY,
+#         column=_Columns.DESC,
+#         **_text_grid_args,
+#     )
+#
+#     # TEST ENTRY PLUS
+#     test_entry_plus = _TestEntryPlus(
+#         _root,
+#         **_test_frame_args,
+#     )
+#     test_entry_plus.grid(
+#         row=_Rows.ENTRY,
+#         column=_Columns.TEST,
+#         **_test_grid_args,
+#     )
+#
+# ########################################################################################################################
+#     # TEXT DROPDOWN PLUS
+#     text_dropdown_plus = TextPlus(
+#         _root,
+#         **_text_args,
+#     )
+#     text_dropdown_plus.grid(
+#         row=_Rows.DROPDOWN,
+#         column=_Columns.DESC,
+#         **_text_grid_args,
+#     )
+#     # TEST DROPDOWN PLUS
+#     test_dropdown_plus = _TestDropdownPlus(
+#         _root,
+#         **_test_frame_args,
+#     )
+#     test_dropdown_plus.grid(
+#         row=_Rows.DROPDOWN,
+#         column=_Columns.TEST,
+#         **_test_grid_args,
+#     )
+#
+#     _root.update()
+#
+#     _root.mainloop()

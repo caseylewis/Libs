@@ -1,7 +1,10 @@
 import platform
 from abc import abstractmethod
 from tkinter import *
-from Libs.GuiLib.gui_styles import *
+try:
+    from Libs.GuiLib.gui_styles import *
+except Exception as e:
+    from GuiLib.gui_styles import *
 
 
 ########################################################################################################################
