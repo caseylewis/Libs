@@ -166,6 +166,9 @@ class DropdownPlus(OptionMenu):
         self._var.trace('w', lambda x, y, z: self.__on_change_callback())
         super().__init__(root, self._var, *self._options_list)
 
+        # BY DEFAULT, MAKE HIGHLIGHTTHICKNESS 0, THEN IF USER CONFIGURES IT WILL OVERRIDE
+        self.config(highlightthickness=0)
+        # CONFIGURE USER PASSED SETTINGS
         self.config(**kwargs)
 
     def __on_change_callback(self):
