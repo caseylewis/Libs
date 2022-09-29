@@ -497,6 +497,7 @@ class EntryWithLabel(Frame):
                  label_font_size=8):
         super().__init__(root)
         self.config(bg=fg)
+        self._default_text = default_text
 
         class _Rows:
             LABEL = 0
@@ -509,8 +510,21 @@ class EntryWithLabel(Frame):
         self.grid_columnconfigure(_Columns.MAIN, weight=1)
         self._label = Label(self, text=lbl_text, anchor=W, bg=bg, fg=fg, font=f"{font_style} {label_font_size}")
         self._label.grid(row=_Rows.LABEL, column=_Columns.MAIN, sticky='sew', pady=(0, 0), padx=(0, 0))
-        self._entry = EntryPlus(self, default_text=default_text, bg=bg, fg=fg, font=f"{font_style} {font_size}")
+        self._entry = EntryPlus(self, default_text=self._default_text, bg=bg, fg=fg, font=f"{font_style} {font_size}")
         self._entry.grid(row=_Rows.ENTRY, column=_Columns.MAIN, sticky='ew', pady=(0, bd), padx=(0, 0))
+
+    def get(self):
+        return self._entry.get()
+
+    def default(self):
+        self._entry.set(self._default_text)
+
+    def clear(self):
+        self._entry.delete(0, END)
+
+    def set(self, set_text):
+        self.clear()
+        self._entry.insert(0, set_text)
 
 
 if __name__ == '__main__':
