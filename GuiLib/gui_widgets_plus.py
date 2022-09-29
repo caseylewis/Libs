@@ -596,20 +596,19 @@ class EntryWithLabel(Frame):
 class FrameWithLabel(Frame):
     """
     Example args:
-    _entry_with_label_args = {
+    _frame_with_label_args = {
         'font_style': 'Times',
         'label_font_size': 24,
-        'bg': 'black',
-        'fg': '#566069',
-        'bd': 1,
-        'label_font_size': 12,
+        'bg': 'white',
+        'fg': 'black',
+        'bd': 0,
     }
     """
     def __init__(self, root, lbl_text,
                  font_style="Times",
-                 label_font_size=8,
-                 bg="black",
-                 fg="white",
+                 label_font_size=24,
+                 bg="white",
+                 fg="black",
                  bd=0):
         super().__init__(root)
         self.config(bg=fg)
@@ -676,8 +675,15 @@ if __name__ == '__main__':
         'bd': 4,
         'label_font_size': 12,
     }
-    _frame_with_label = FrameWithLabel(_root, "Test Frame With Label", label_font_size=24, bg=_MAIN_BG, fg=_MAIN_FG)
-    _frame_with_label.grid(row=0, column=0, sticky='nsew', pady=(0, 0), padx=(20, 20))
+    _frame_with_label_args = {
+        'font_style': 'Times',
+        'label_font_size': 24,
+        'bg': _MAIN_BG,
+        'fg': _MAIN_FG,
+        'bd': 0,
+    }
+    _frame_with_label = FrameWithLabel(_root, "Test Frame With Label")#, **_frame_with_label_args)  # bd=5, font_style='Helvetica', label_font_size=24, bg=_MAIN_BG, fg=_MAIN_FG)
+    _frame_with_label.grid(row=0, column=0, sticky='nsew', pady=(0, 20), padx=(20, 20))
     _frame_with_label.frame.grid_rowconfigure(0, weight=1)
     _frame_with_label.frame.grid_rowconfigure(1, weight=1)
     _frame_with_label.frame.grid_columnconfigure(0, weight=1)
