@@ -608,6 +608,52 @@ class EntryWithLabel(Frame):
         self._entry.focus_set()
 
 
+class LabelWithLabel(Frame):
+    """
+    Example args:
+    _label_with_label_args = {
+        'font_style': 'Times',
+        'font_size': 24,
+        'bg': 'white',
+        'fg': '#566069',
+        'bd': 1,
+        'label_font_size': 12,
+    }
+    """
+    def __init__(self, root, text, lbl_text,
+                 font_style="Times",
+                 font_size=12,
+                 bg="black",
+                 fg="white",
+                 bd=3,
+                 anchor=W,
+                 label_font_size=8):
+        super().__init__(root)
+        self.config(bg=fg)
+        self._text = text
+
+        class _Rows:
+            LABEL = 0
+            MAIN_LBL = 1
+        self.grid_rowconfigure(_Rows.LABEL, weight=1)
+        self.grid_rowconfigure(_Rows.MAIN_LBL, weight=0)
+
+        class _Columns:
+            MAIN = 0
+        self.grid_columnconfigure(_Columns.MAIN, weight=1)
+        self._label = Label(self, text=lbl_text, anchor=W, bg=bg, fg=fg, font=f"{font_style} {label_font_size}")
+        self._label.grid(row=_Rows.LABEL, column=_Columns.MAIN, sticky='sew', pady=(0, 0), padx=(0, 0))
+        self._main_lbl = Label(self, text=self._text, anchor=anchor, bg=bg, fg=fg, font=f"{font_style} {font_size}")
+        self._main_lbl.grid(row=_Rows.MAIN_LBL, column=_Columns.MAIN, sticky='ew', pady=(0, bd), padx=(0, 0))
+
+    def get(self):
+        return self._main_lbl['text']
+
+    def set(self, set_text):
+        self._text = set_text
+        self._main_lbl.config(text=self._text)
+
+
 class FrameWithLabel(Frame):
     """
     Example args:
@@ -697,6 +743,14 @@ if __name__ == '__main__':
         'fg': _MAIN_FG,
         'bd': 0,
     }
+    _label_with_label_args = {
+        'font_style': 'Times',
+        'font_size': 24,
+        'bg': _MAIN_BG,
+        'fg': _MAIN_FG,
+        'bd': 1,
+        'label_font_size': 12,
+    }
     _frame_with_label = FrameWithLabel(_root, "Test Frame With Label")#, **_frame_with_label_args)  # bd=5, font_style='Helvetica', label_font_size=24, bg=_MAIN_BG, fg=_MAIN_FG)
     _frame_with_label.grid(row=0, column=0, sticky='nsew', pady=(0, 20), padx=(20, 20))
     _frame_with_label.frame.grid_rowconfigure(0, weight=1)
@@ -709,6 +763,9 @@ if __name__ == '__main__':
     options_list = ['1', '2', '3']
     _dropdown_with_label = DropdownWithLabel(_frame_with_label.frame, "Test Dropdown", options_list=options_list, **_dropdown_with_label_args)
     _dropdown_with_label.grid(row=1, column=0, sticky='ew', pady=(20, 0), padx=(0, 0))
+
+    _label_with_label = LabelWithLabel(_frame_with_label.frame, "Test", "Test Label With Label", **_label_with_label_args)
+    _label_with_label.grid(row=2, column=0, sticky='ew', pady=(20, 0), padx=(0, 0))
 
     _root.mainloop()
 #
