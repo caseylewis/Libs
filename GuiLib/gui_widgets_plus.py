@@ -476,170 +476,82 @@ class LabelWithCopy(Frame):
         pyperclip.copy(self._lbl['text'])
 
 
-# if __name__ == '__main__':
-#     # WIDGET PLUS
-#     #   - CheckbuttonPlus
-#     #   - EntryPlus
-#     #   - DropdownPlus
-#     #   - LoggerPlus
-#     #   - ScrollFramePlus
-#     # EXTENDED WIDGETS
-#     #   - ButtonWithBorder
-#     #   - LabelWithCopy
+class EntryWithLabel(Frame):
+    """
+    Example args:
+    _entry_with_label_args = {
+        'font_style': 'Times',
+        'font_size': 24,
+        'bg': 'white',
+        'fg': '#566069',
+        'bd': 1,
+        'label_font_size': 12,
+    }
+    """
+    def __init__(self, root, lbl_text, default_text="",
+                 font_style="Times",
+                 font_size=12,
+                 bg="black",
+                 fg="white",
+                 bd=3,
+                 label_font_size=8):
+        super().__init__(root)
+        self.config(bg=fg)
+
+        class _Rows:
+            LABEL = 0
+            ENTRY = 1
+        self.grid_rowconfigure(_Rows.LABEL, weight=1)
+        self.grid_rowconfigure(_Rows.ENTRY, weight=0)
+
+        class _Columns:
+            MAIN = 0
+        self.grid_columnconfigure(_Columns.MAIN, weight=1)
+        self._label = Label(self, text=lbl_text, anchor=W, bg=bg, fg=fg, font=f"{font_style} {label_font_size}")
+        self._label.grid(row=_Rows.LABEL, column=_Columns.MAIN, sticky='sew', pady=(0, 0), padx=(0, 0))
+        self._entry = EntryPlus(self, default_text=default_text, bg=bg, fg=fg, font=f"{font_style} {font_size}")
+        self._entry.grid(row=_Rows.ENTRY, column=_Columns.MAIN, sticky='ew', pady=(0, bd), padx=(0, 0))
+
+
+if __name__ == '__main__':
+    # WIDGET PLUS
+    #   - CheckbuttonPlus
+    #   - EntryPlus
+    #   - DropdownPlus
+    #   - LoggerPlus
+    #   - ScrollFramePlus
+    # EXTENDED WIDGETS
+    #   - ButtonWithBorder
+    #   - LabelWithCopy
+
+    # CONFIGURE ROOT CONSTANTS
+    _START_HEIGHT = 400
+    _START_WIDTH = 400
+    _MIN_W_HEIGHT = 300
+    _MIN_W_WIDTH = 800
+
+    _MAIN_BG = '#59ffc6'
+
+    _root = Tk()
+    _root.title("Test")
+    _root.config(bg='white')
+    # root.minsize(600, 300)
+    _root.geometry(f"{_START_WIDTH}x{_START_HEIGHT}")
+    # _root.wm_minsize(_MIN_W_WIDTH, _MIN_W_HEIGHT)
+
+    _root.grid_columnconfigure(0, weight=1)
+    _root.grid_rowconfigure(0, weight=1)
+
+    _entry_with_label_args = {
+        'font_style': 'Times',
+        'font_size': 24,
+        'bg': _root['bg'],
+        'fg': '#566069',
+        'bd': 1,
+        'label_font_size': 12,
+    }
+    _entry_with_label = EntryWithLabel(_root, "Test Label", **_entry_with_label_args)
+    _entry_with_label.grid(row=0, column=0, sticky='ew', pady=20, padx=20)
+
+    _root.mainloop()
 #
-#     # CONFIGURE ROOT CONSTANTS
-#     _START_HEIGHT = 400
-#     _START_WIDTH = 400
-#     _MIN_W_HEIGHT = 300
-#     _MIN_W_WIDTH = 800
-#
-#     _root = Tk()
-#     _root.config(bg='#59ffc6')
-#     # root.minsize(600, 300)
-#     _root.geometry(f"{_START_WIDTH}x{_START_HEIGHT}")
-#     _root.wm_minsize(_MIN_W_WIDTH, _MIN_W_HEIGHT)
-#
-#     # CONFIGURE COLUMNS
-#     class _Columns:
-#         DESC = 0
-#         TEST = 1
-#     uniform_minsize = 200
-#     buffer_minsize = 50
-#     _root.grid_columnconfigure(
-#         _Columns.DESC,
-#         weight=1,
-#         minsize=uniform_minsize,
-#         uniform='desc'
-#     )
-#     _root.grid_columnconfigure(
-#         _Columns.TEST,
-#         weight=5,
-#         minsize=uniform_minsize,
-#         uniform='test'
-#     )
-#
-#     # CONFIGURE ROWS
-#     class _Rows:
-#         CHECK = 0
-#         ENTRY = 1
-#         # TEXT = 2
-#         DROPDOWN = 3
-#     _root.grid_rowconfigure(
-#         _Rows.CHECK,
-#         weight=1,
-#         minsize=10,
-#         uniform='uniform_rows'
-#     )
-#     _root.grid_rowconfigure(
-#         _Rows.ENTRY,
-#         weight=1,
-#         minsize=300,
-#         # uniform='uniform_rows'
-#     )
-#     _root.grid_rowconfigure(
-#         _Rows.DROPDOWN,
-#         weight=1,
-#         minsize=10,
-#         uniform='uniform_rows'
-#     )
-#     # LOCAL STYLE ARGS
-#     _text_args = {
-#         'width': 50,
-#         'height': 1,
-#         'read_only': True,
-#     }
-#     _test_frame_args = {
-#         'bg': '#59ffc6',
-#     }
-#     # LOCAL GRID ARGS
-#     _text_grid_args = {
-#         'pady': _grid_args['pady'],
-#         'padx': _grid_args['padx'],
-#         'sticky': 'nsew',
-#     }
-#     _test_grid_args = {
-#         'pady': _grid_args['pady'],
-#         'padx': _grid_args['padx'],
-#         'sticky': 'nsew',
-#     }
-#
-# ########################################################################################################################
-#     # TEXT CHECKBUTTON PLUS
-#     text_checkbutton_plus = TextPlus(
-#         _root,
-#         **_text_args,
-#     )
-#     text_checkbutton_plus.set(
-#         "This is to test the CheckbuttonPlus class."
-#         "\n\n"
-#         "Test new line."
-#     )
-#     text_checkbutton_plus.grid(
-#         row=_Rows.CHECK,
-#         column=_Columns.DESC,
-#         **_text_grid_args,
-#     )
-#
-#     # TEST CHECKBUTTON PLUS
-#     test_checkbutton_plus = _TestCheckbuttonPlus(_root, **_test_frame_args)
-#     test_checkbutton_plus.grid(
-#         row=_Rows.CHECK,
-#         column=_Columns.TEST,
-#         **_test_grid_args,
-#     )
-#
-# ########################################################################################################################
-#     # TEXT ENTRY PLUS
-#     text_entry_plus = TextPlus(
-#         _root,
-#         **_text_args,
-#     )
-#     text_entry_plus.set(
-#         "This is to test the EntryPlus class."
-#         "\n\n"
-#         "Print: Prints what is currently in the Main Entry to the Output Entry (bottom)."
-#         "\n\n"
-#         "Clear: Clears the Main Entry."
-#     )
-#     text_entry_plus.grid(
-#         row=_Rows.ENTRY,
-#         column=_Columns.DESC,
-#         **_text_grid_args,
-#     )
-#
-#     # TEST ENTRY PLUS
-#     test_entry_plus = _TestEntryPlus(
-#         _root,
-#         **_test_frame_args,
-#     )
-#     test_entry_plus.grid(
-#         row=_Rows.ENTRY,
-#         column=_Columns.TEST,
-#         **_test_grid_args,
-#     )
-#
-# ########################################################################################################################
-#     # TEXT DROPDOWN PLUS
-#     text_dropdown_plus = TextPlus(
-#         _root,
-#         **_text_args,
-#     )
-#     text_dropdown_plus.grid(
-#         row=_Rows.DROPDOWN,
-#         column=_Columns.DESC,
-#         **_text_grid_args,
-#     )
-#     # TEST DROPDOWN PLUS
-#     test_dropdown_plus = _TestDropdownPlus(
-#         _root,
-#         **_test_frame_args,
-#     )
-#     test_dropdown_plus.grid(
-#         row=_Rows.DROPDOWN,
-#         column=_Columns.TEST,
-#         **_test_grid_args,
-#     )
-#
-#     _root.update()
-#
-#     _root.mainloop()
