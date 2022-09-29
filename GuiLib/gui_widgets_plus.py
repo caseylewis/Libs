@@ -41,7 +41,6 @@ class CheckbuttonPlus(Checkbutton):
         self._var.trace('w', lambda x, y, z: self.__on_val_change())
         super().__init__(root, variable=self._var, *args, **kwargs)
         self._default_value = default_val
-        self.default()
 
     def get(self):
         return self._var.get()
