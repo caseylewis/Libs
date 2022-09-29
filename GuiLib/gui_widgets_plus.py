@@ -476,6 +476,72 @@ class LabelWithCopy(Frame):
         pyperclip.copy(self._lbl['text'])
 
 
+class DropdownWithLabel(Frame):
+    """
+    Example args:
+    _dropdown_with_label_args = {
+        'font_style': 'Times',
+        'font_size': 24,
+        'bg': 'white',
+        'fg': '#566069',
+        'bd': 1,
+        'label_font_size': 12,
+    }
+    """
+    def __init__(self, root, lbl_text, options_list, on_change_func=None,
+                 font_style="Times",
+                 font_size=12,
+                 bg="black",
+                 fg="white",
+                 bd=3,
+                 label_font_size=8):
+        super().__init__(root)
+        self.config(bg=fg)
+
+        class _Rows:
+            LABEL = 0
+            DROPDOWN = 1
+        self.grid_rowconfigure(_Rows.LABEL, weight=1)
+        self.grid_rowconfigure(_Rows.DROPDOWN, weight=0)
+
+        class _Columns:
+            MAIN = 0
+        self.grid_columnconfigure(_Columns.MAIN, weight=1)
+        self._label = Label(self, text=lbl_text, anchor=W, bg=bg, fg=fg, font=f"{font_style} {label_font_size}")
+        self._label.grid(row=_Rows.LABEL, column=_Columns.MAIN, sticky='sew', pady=(0, 0), padx=(0, 0))
+        self._dropdown = DropdownPlus(self, options_list=options_list, on_change_func=on_change_func, bg=bg, fg=fg, font=f"{font_style} {font_size}")
+        self._dropdown.grid(row=_Rows.DROPDOWN, column=_Columns.MAIN, sticky='ew', pady=(0, bd), padx=(0, 0))
+
+    def add_option(self, option):
+        """
+        Adds the option to the _options_list. Then, deletes everything from the list, and rebuilds it.
+        """
+        self._dropdown.add_option(option)
+
+    def remove_option(self, option_string):
+        """
+        Searches the current option for the option_string, if found removes it. Then, clears the current list and
+        rebuilds the list from what is left.
+        """
+        self._dropdown.remove_option(option_string)
+
+    def set_options(self, options_list):
+        """
+        Sets the options to be exactly what is passed as options_list.
+        Completely clears and sets a new list.
+        """
+        self._dropdown.set_options(options_list)
+
+    def default(self):
+        self._dropdown.default()
+
+    def get(self):
+        return self._dropdown.get()
+
+    def set(self, value):
+        self._dropdown.set(value)
+
+
 class EntryWithLabel(Frame):
     """
     Example args:
@@ -527,6 +593,42 @@ class EntryWithLabel(Frame):
         self._entry.insert(0, set_text)
 
 
+class FrameWithLabel(Frame):
+    """
+    Example args:
+    _entry_with_label_args = {
+        'font_style': 'Times',
+        'label_font_size': 24,
+        'bg': 'black',
+        'fg': '#566069',
+        'bd': 1,
+        'label_font_size': 12,
+    }
+    """
+    def __init__(self, root, lbl_text,
+                 font_style="Times",
+                 label_font_size=8,
+                 bg="black",
+                 fg="white",
+                 bd=0):
+        super().__init__(root)
+        self.config(bg=fg)
+
+        class _Rows:
+            LABEL = 0
+            FRAME = 1
+        self.grid_rowconfigure(_Rows.LABEL, weight=0)
+        self.grid_rowconfigure(_Rows.FRAME, weight=1)
+
+        class _Columns:
+            MAIN = 0
+        self.grid_columnconfigure(_Columns.MAIN, weight=1)
+        self._label = Label(self, text=lbl_text, anchor=W, bg=bg, fg=fg, font=f"{font_style} {label_font_size}")
+        self._label.grid(row=_Rows.LABEL, column=_Columns.MAIN, sticky='sew', pady=(0, 0), padx=(0, 0))
+        self.frame = Frame(self, bg=bg)
+        self.frame.grid(row=_Rows.FRAME, column=_Columns.MAIN, sticky='nsew', pady=(0, bd), padx=(0, 0))
+
+
 if __name__ == '__main__':
     # WIDGET PLUS
     #   - CheckbuttonPlus
@@ -544,11 +646,13 @@ if __name__ == '__main__':
     _MIN_W_HEIGHT = 300
     _MIN_W_WIDTH = 800
 
-    _MAIN_BG = '#59ffc6'
+    turquoise = '#59ffc6'
+    _MAIN_FG = turquoise
+    _MAIN_BG = 'black'
 
     _root = Tk()
     _root.title("Test")
-    _root.config(bg='white')
+    _root.config(bg='black')
     # root.minsize(600, 300)
     _root.geometry(f"{_START_WIDTH}x{_START_HEIGHT}")
     # _root.wm_minsize(_MIN_W_WIDTH, _MIN_W_HEIGHT)
@@ -559,13 +663,31 @@ if __name__ == '__main__':
     _entry_with_label_args = {
         'font_style': 'Times',
         'font_size': 24,
-        'bg': _root['bg'],
-        'fg': '#566069',
-        'bd': 1,
+        'bg': _MAIN_BG,
+        'fg': _MAIN_FG,
+        'bd': 4,
         'label_font_size': 12,
     }
-    _entry_with_label = EntryWithLabel(_root, "Test Label", **_entry_with_label_args)
-    _entry_with_label.grid(row=0, column=0, sticky='ew', pady=20, padx=20)
+    _dropdown_with_label_args = {
+        'font_style': 'Times',
+        'font_size': 24,
+        'bg': _MAIN_BG,
+        'fg': _MAIN_FG,
+        'bd': 4,
+        'label_font_size': 12,
+    }
+    _frame_with_label = FrameWithLabel(_root, "Test Frame With Label", label_font_size=24, bg=_MAIN_BG, fg=_MAIN_FG)
+    _frame_with_label.grid(row=0, column=0, sticky='nsew', pady=(0, 0), padx=(20, 20))
+    _frame_with_label.frame.grid_rowconfigure(0, weight=1)
+    _frame_with_label.frame.grid_rowconfigure(1, weight=1)
+    _frame_with_label.frame.grid_columnconfigure(0, weight=1)
+
+    _entry_with_label = EntryWithLabel(_frame_with_label.frame, "Test Label", **_entry_with_label_args)
+    _entry_with_label.grid(row=0, column=0, sticky='ew', pady=(0, 0), padx=20)
+
+    options_list = ['1', '2', '3']
+    _dropdown_with_label = DropdownWithLabel(_frame_with_label.frame, "Test Dropdown", options_list=options_list, **_dropdown_with_label_args)
+    _dropdown_with_label.grid(row=1, column=0, sticky='ew', pady=(20, 0), padx=(0, 0))
 
     _root.mainloop()
 #
