@@ -34,15 +34,28 @@ class CheckbuttonPlus(Checkbutton):
     ON = 1
     OFF = 0
 
-    def __init__(self, root, select_func=None, deselect_func=None, *args, **kwargs):
+    def __init__(self, root, default_val=OFF, select_func=None, deselect_func=None, *args, **kwargs):
         self._select_func = select_func
         self._deselect_func = deselect_func
         self._var = IntVar()
         self._var.trace('w', lambda x, y, z: self.__on_val_change())
         super().__init__(root, variable=self._var, *args, **kwargs)
+        self._default_value = default_val
+        self.default()
 
     def get(self):
         return self._var.get()
+
+    def set(self, val):
+        if val == 1:
+            self._var.set(1)
+        elif val == 0:
+            self._var.set(0)
+        else:
+            raise Exception("CheckbuttonPlus does not support setting values other than 0 or 1.")
+
+    def default(self):
+        self.set(self._default_value)
 
     def __on_val_change(self):
         if self.get() == self.ON:
@@ -591,6 +604,9 @@ class EntryWithLabel(Frame):
     def set(self, set_text):
         self.clear()
         self._entry.insert(0, set_text)
+
+    def focus_set(self):
+        self._entry.focus_set()
 
 
 class FrameWithLabel(Frame):
