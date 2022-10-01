@@ -430,6 +430,12 @@ class ButtonWithBorder(Frame):
         self._btn.bind('<Enter>', self.__on_enter)
         self._btn.bind('<Leave>', self.__on_leave)
 
+    def set(self, btn_text):
+        """
+        Sets the button text with the passed btn_text.
+        """
+        self._btn.config(text=btn_text)
+
     def __on_enter(self, event):
         self._btn.config(bg=self.fg, fg=self.bg)
         self.config(bg=self.bg)
