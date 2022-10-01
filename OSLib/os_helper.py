@@ -50,12 +50,19 @@ def file_create(filepath):
 
 
 class StandardAppDirStruct:
+    """
+    This class takes the passed app_dir and creates a safe place to store other files.
+    Can use the following locations as preset:
+    - self.data_dir: "data_{self.app_name}"
+    - self.logs_dir: "{self.data_dir}/logs"
+    -self.resources_dir: "{self.data_dir}/resources"
+    """
     def __init__(self, app_dir, app_name):
         self.app_dir = app_dir
         self.app_name = app_name
 
         # DATA DIRECTORY
-        self.data_dir = os.path.join(self.app_dir, "data_{}".format(self.app_name))
+        self.data_dir = os.path.join(self.app_dir, f"data_{self.app_name}")
         dir_create(self.data_dir)
 
         # SUB DIRECTORIES
