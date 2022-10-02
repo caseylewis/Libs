@@ -635,7 +635,16 @@ class LabelWithLabel(Frame):
                  anchor=W,
                  label_font_size=8):
         super().__init__(root)
-        self.config(bg=fg)
+        self._font_style = font_style
+        self._font_size = font_size
+        self._bg = bg
+        self._fg = fg
+        self._bd = bd
+        self._anchor = anchor
+        self._label_font_size = label_font_size
+
+        # CONFIGURE FRAME
+        self.configure(bg=fg)
         self._text = text
 
         class _Rows:
@@ -647,10 +656,15 @@ class LabelWithLabel(Frame):
         class _Columns:
             MAIN = 0
         self.grid_columnconfigure(_Columns.MAIN, weight=1)
-        self._label = Label(self, text=lbl_text, anchor=W, bg=bg, fg=fg, font=f"{font_style} {label_font_size}")
+
+        # LABEL
+        self._label = Label(self, text=lbl_text)
         self._label.grid(row=_Rows.LABEL, column=_Columns.MAIN, sticky='sew', pady=(0, 0), padx=(0, 0))
-        self._main_lbl = Label(self, text=self._text, anchor=anchor, bg=bg, fg=fg, font=f"{font_style} {font_size}")
-        self._main_lbl.grid(row=_Rows.MAIN_LBL, column=_Columns.MAIN, sticky='ew', pady=(0, bd), padx=(0, 0))
+        self.configure_lbl(font_style=self._font_style, label_font_size=self._label_font_size, bg=self._bg, fg=self._fg, anchor=self._anchor)
+        # MAIN LABEL
+        self._main_lbl = Label(self, text=self._text)
+        self._main_lbl.grid(row=_Rows.MAIN_LBL, column=_Columns.MAIN, sticky='ew')
+        self.configure_main_lbl(font_style=self._font_style, font_size=self._font_size, bg=self._bg, fg=self._fg, bd=self._bd, anchor=self._anchor)
 
     def get(self):
         return self._main_lbl['text']
@@ -658,6 +672,54 @@ class LabelWithLabel(Frame):
     def set(self, set_text):
         self._text = set_text
         self._main_lbl.config(text=self._text)
+
+    def configure_lbl(self, font_style=None, label_font_size=None, bg=None, fg=None, anchor=None):
+        if font_style is None:
+            font_style = self._font_style
+        if label_font_size is None:
+            label_font_size = self._font_size
+        if bg is None:
+            bg = self._bg
+        if fg is None:
+            fg = self._fg
+        # if bd is None:
+        #     bd = self._bd
+        if anchor is None:
+            anchor = self._anchor
+        self._label.config(anchor=anchor, bg=bg, fg=fg, font=f"{font_style} {label_font_size}")
+
+    def configure_main_lbl(self, font_style=None, font_size=None, bg=None, fg=None, bd=None, anchor=None):
+        if font_style is None:
+            font_style = self._font_style
+        if font_size is None:
+            font_size = self._font_size
+        if bg is None:
+            bg = self._bg
+        if fg is None:
+            fg = self._fg
+        if bd is None:
+            bd = self._bd
+        if anchor is None:
+            anchor = self._anchor
+        self._main_lbl.config(anchor=anchor, bg=bg, fg=fg, font=f"{font_style} {font_size}")
+        self._main_lbl.grid(pady=(0, bd), padx=(0, 0))
+
+    def config(self, font_style=None, font_size=None, bg=None, fg=None, bd=None, anchor=None, label_font_size=None):
+        if font_style is None:
+            font_style = self._font_style
+        if font_size is None:
+            font_size = self._font_size
+        if bg is None:
+            bg = self._bg
+        if fg is None:
+            fg = self._fg
+        if bd is None:
+            bd = self._bd
+        if anchor is None:
+            anchor = self._anchor
+        self._label.config(anchor=anchor, bg=bg, fg=fg, font=f"{font_style} {label_font_size}")
+        self._main_lbl.config(anchor=anchor, bg=bg, fg=fg, font=f"{font_style} {font_size}")
+        self._main_lbl.grid(pady=(0, bd), padx=(0, 0))
 
 
 class FrameWithLabel(Frame):

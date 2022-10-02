@@ -23,7 +23,7 @@ def get_date_increment_year(date, years=1):
     return next_year
 
 
-def get_date_plus_one_month(date, months=1):
+def get_date_increment_month(date, months=1):
     """
     Allows you to get a datetime.datetime object of a different month, or the closest thing to it.
 

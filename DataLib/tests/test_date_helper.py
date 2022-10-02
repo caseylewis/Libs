@@ -37,36 +37,36 @@ class TestDates(unittest.TestCase):
         # OUT OF BOUNDS ###################################
         first_of_year = datetime.datetime(2022, 1, 1)
         with self.assertRaises(MonthOutOfRange):
-            get_date_plus_one_month(first_of_year, months=13)
+            get_date_increment_month(first_of_year, months=13)
         with self.assertRaises(MonthOutOfRange):
-            get_date_plus_one_month(first_of_year, months=-12)
+            get_date_increment_month(first_of_year, months=-12)
         # ADDING SINGLE MONTH #############################
         # March 31st
         march_end = datetime.datetime(2022, 3, 31)
-        next_month = get_date_plus_one_month(march_end)
+        next_month = get_date_increment_month(march_end)
         self.assertEqual(next_month, datetime.datetime(2022, 4, 30))
         # DECEMBER 31st
         year_end = datetime.datetime(2022, 12, 31)
-        next_month = get_date_plus_one_month(year_end)
+        next_month = get_date_increment_month(year_end)
         self.assertEqual(next_month, datetime.datetime(2023, 1, 31))
 
         # ADDING MULTIPLE MONTHS #############################
         # March 31st - July 31st
         march_end = datetime.datetime(2022, 3, 31)
-        next_month = get_date_plus_one_month(march_end, months=4)
+        next_month = get_date_increment_month(march_end, months=4)
         self.assertEqual(next_month, datetime.datetime(2022, 7, 31))
         # March 31st - June 30th
         march_end = datetime.datetime(2022, 3, 31)
-        next_month = get_date_plus_one_month(march_end, months=3)
+        next_month = get_date_increment_month(march_end, months=3)
         self.assertEqual(next_month, datetime.datetime(2022, 6, 30))
 
         # SUBTRACTING MONTHS #############################
         january_start = datetime.datetime(2022, 1, 1)
-        previous_month = get_date_plus_one_month(january_start, months=-1)
+        previous_month = get_date_increment_month(january_start, months=-1)
         self.assertEqual(previous_month, datetime.datetime(2021, 12, 1))
         # January 31st - 2 months = November 30th
         january_start = datetime.datetime(2022, 1, 31)
-        previous_month = get_date_plus_one_month(january_start, months=-2)
+        previous_month = get_date_increment_month(january_start, months=-2)
         self.assertEqual(previous_month, datetime.datetime(2021, 11, 30))
 
 
