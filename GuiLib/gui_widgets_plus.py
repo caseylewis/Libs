@@ -415,7 +415,7 @@ class ButtonWithBorder(Frame):
         self.bd = bd
         self.__command = command
         # FRAME BG MUST BE SET TO FG
-        self.config(bg=self.fg)
+        self.configure(bg=self.fg)
         # CONFIGURE COLUMNS AND ROWS
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
@@ -438,11 +438,40 @@ class ButtonWithBorder(Frame):
 
     def __on_enter(self, event):
         self._btn.config(bg=self.fg, fg=self.bg)
-        self.config(bg=self.bg)
+        self.configure(bg=self.bg)
 
     def __on_leave(self, event):
         self._btn.config(bg=self.bg, fg=self.fg)
-        self.config(bg=self.fg)
+        self.configure(bg=self.fg)
+
+    def config(self, font_style=None, font_size=None, font_extras=None, bg=None, fg=None, bd=None):
+        if font_style is None:
+            font_style = self.font_style
+        else:
+            self.font_style = font_style
+        if font_size is None:
+            font_size = self.font_size
+        else:
+            self.font_size = font_size
+        if font_extras is None:
+            font_extras = self.font_extras
+        else:
+            self.font_extras = font_extras
+        if bg is None:
+            bg = self.bg
+        else:
+            self.bg = bg
+        if fg is None:
+            fg = self.fg
+        else:
+            self.fg = fg
+        if bd is None:
+            bd = self.bd
+        else:
+            self.bd = bd
+        self.configure(bg=fg)
+        self._btn.config(bg=bg, fg=fg, font=f"{font_style} {font_size} {font_extras}")
+        self._btn.config(pady=bd, padx=bd)
 
 
 class LabelWithCopy(Frame):
