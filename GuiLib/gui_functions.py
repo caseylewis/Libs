@@ -69,6 +69,36 @@ def copy_dict(dict):
     return new_dict
 
 
+class FullscreenManager:
+    """
+    This class allows you to take a generic Tk() object and allow it go toggle between fullscreen and not
+    by using the F11 and Esc keys.
+    """
+    def __init__(self, root):
+        self._root = root
+        self._screen_state = False
+        self._root.bind("<F11>", self.toggle_fullscreen)
+        self._root.bind("<Escape>", self.end_fullscreen)
+
+    def toggle_fullscreen(self, event=None):
+        """
+        Causes the root Tk() object to go fullscreen mode.
+        :param event: None
+        :return: None
+        """
+        self._screen_state = not self._screen_state
+        self._root.attributes("-fullscreen", self._screen_state)
+
+    def end_fullscreen(self, event=None):
+        """
+        Causes the root Tk() object to leave fullscreen mode.
+        :param event: None
+        :return: None
+        """
+        self._screen_state = False
+        self._root.attributes("-fullscreen", False)
+
+
 if __name__ == '__main__':
     from Libs.GuiLib.gui_styles import *
 
