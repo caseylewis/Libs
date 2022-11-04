@@ -6,7 +6,14 @@ default_formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
 
 
 def setup_logger(name, log_file, level=logging.INFO, formatter=default_formatter):
-    """To setup as many loggers as you want"""
+    """
+
+    :param name:
+    :param log_file: filename of logger
+    :param level:
+    :param formatter:
+    :return:
+    """
 
     handler = logging.FileHandler(log_file)
     handler.setFormatter(formatter)

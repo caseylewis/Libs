@@ -43,6 +43,11 @@ def file_delete(filepath):
 
 
 def file_create(filepath):
+    """
+    Creates a file unless it already exists.
+    :param filepath: Filepath of file to create
+    :return: None
+    """
     if not file_exists(filepath):
         f = open(filepath, 'x')
         os.chmod(filepath, 0o777)
