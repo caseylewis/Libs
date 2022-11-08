@@ -1,6 +1,9 @@
 import unittest
 
-from OSLib.chromedriver_helper import *
+try:
+    from OSLib.chromedriver_helper import *
+except:
+    from Libs.OSLib.chromedriver_helper import *
 
 
 class TestChromedriver(unittest.TestCase):
